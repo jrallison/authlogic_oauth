@@ -1,0 +1,13 @@
+= Authlogic OAuth
+
+Authlogic OAuth is an extension of the Authlogic library to add OAuth support. One use case for authentication with OAuth is allowing users to log in with their Twitter credentials.
+
+== Helpful links
+
+*	<b>Authlogic:</b> http://github.com/binarylogic/authlogic
+*	<b>Live example:</b> *coming soon*
+
+== Install and use
+
+Directions coming soon.
+
