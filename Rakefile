@@ -4,8 +4,8 @@ require "rubygems"
 require "hoe"
 require File.dirname(__FILE__) << "/lib/authlogic_oauth/version"
 
-Hoe.new("AuthlogicOauth", AuthlogicOauth::Version::STRING) do |p|
-  p.name = "authlogic_oauth"
+Hoe.new("authlogic-oauth", AuthlogicOauth::Version::STRING) do |p|
+  p.name = "authlogic-oauth"
   p.author = "John Allison"
   p.email  = 'jrallison@gmail.com'
   p.summary = "An authlogic extension for authenticating via OAuth. (I.E. Twitter login)"
