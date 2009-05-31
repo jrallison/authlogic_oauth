@@ -9,5 +9,102 @@ Authlogic OAuth is an extension of the Authlogic library to add OAuth support. O
 
 == Install and use
 
-Directions coming soon.
+=== 1. Install Authlogic and setup your application
 
+  <b>Authlogic:</b> http://github.com/binarylogic/authlogic
+  <b>Authlogic Example:</b> http://github.com/binarylogic/authlogic_example
+
+=== 2. Install OAuth and Authlogic_Oauth
+
+  $ sudo gem install oauth
+  $ sudo gem install authlogic-oauth
+
+Now add the gem dependencies in your config:
+
+  config.gem "oauth"
+  config.gem "authlogic-oauth", :lib => "authlogic_oauth"
+  
+Or for older version of rails, install it as a plugin:
+
+  $ script/plugin install git://github.com/jrallison/authlogic_oauth.git
+
+=== 3. Make some simple changes to your database:
+
+  class AddUsersOauthFields < ActiveRecord::Migration
+    def self.up
+      add_column :users, :oauth_token, :string
+      add_column :users, :oauth_secret, :string
+      add_index :users, :oauth_token
+
+      change_column :users, :login, :string, :default => nil, :null => true
+      change_column :users, :crypted_password, :string, :default => nil, :null => true
+      change_column :users, :password_salt, :string, :default => nil, :null => true
+    end
+
+    def self.down
+      remove_column :users, :oauth_token
+      remove_column :users, :oauth_secret
+
+      [:login, :crypted_password, :password_salt].each do |field|
+        User.all(:conditions => "#{field} is NULL").each { |user| user.update_attribute(field, "") if user.send(field).nil? }
+        change_column :users, field, :string, :default => "", :null => false
+      end
+    end
+  end
+  
+=== 4. Make sure you save your objects properly
+
+You only need to save your objects this way if you want the user to authenticate with their OAuth provider.
+
+That being said, you probably want to do this in your controllers. You should do this for BOTH your User objects and UserSession objects (assuming you are authenticating users). It should look something like this:
+
+  @user_session.save do |result|
+    if result
+      flash[:notice] = "Login successful!"
+      redirect_back_or_default account_url
+    else
+      render :action => :new
+    end
+  end
+
+You should save your @user objects this way as well, because you also want the user to authenticate with OAuth.
+
+Notice we are saving with a block. Why? Because we need to redirect the user to their OAuth provider so that they can authenticate. When we do this, we don't want to execute that block of code, because if we do, we will get a DoubleRender error. This lets us skip that entire block and send the user along their way without any problems.
+
+=== 5. Add a few routes and a OAuth controller
+
+This area needs improvement.  Also, because of security issues with OAuth callbacks, this is a bit more complicated then it needs to be.
+
+Add the following routes to your routes.rb file:
+
+  map.oauth_login '/oauth_login', { :controller => 'user_sessions', :action => 'create', :method => 'get' }
+  map.oauth_register '/oauth_register', { :controller => 'users', :action => 'create', :method => 'get' }
+  map.authorize_oauth '/oauth', { :controller => 'oauth', :action => 'authorize', :method => 'get' }
+  
+Add an OAuth controller to handle the callback from your OAuth provider, and send it on it's way.
+
+  class OauthController < ApplicationController
+    def authorize
+      redirect_to session[:oauth_redirect].merge(:oauth_token => params[:oauth_token])
+    end
+  end
+
+=== 6. Config your OAuth provider's callback url
+
+You're callback url should point to the authorize route you added in step 5.
+
+=== 7. Define the oauth_consumer class method on your UserSession model
+
+The oauth_consumer should return an OAuth::Consumer which is configured for your OAuth provider.  Here's an example for Twitter:
+
+  class UserSession < Authlogic::Session::Base
+
+    def self.oauth_consumer
+      OAuth::Consumer.new("TOKEN", "SECRET",
+      { :site=>"http://twitter.com",
+        :authorize_url => "http://twitter.com/oauth/authenticate" })
+    end
+
+  end
+
+That's it! The rest is taken care of for you.
