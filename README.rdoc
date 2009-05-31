@@ -110,7 +110,7 @@ The oauth_consumer should return an OAuth::Consumer which is configured for your
 
 That's it! The rest is taken care of for you.
 
-Here are some next steps for the plugin.
+= Here are some next steps for the plugin.
 
 1. Safe OAuth error handling.
 2. Helpers for login/register with oauth form buttons.
