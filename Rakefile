@@ -8,8 +8,8 @@ Hoe.new("AuthlogicOauth", AuthlogicOauth::Version::STRING) do |p|
   p.name = "authlogic_oauth"
   p.author = "John Allison"
   p.email  = 'jrallison@gmail.com'
-  p.summary = "blah."
-  p.description = "blah."
+  p.summary = "An authlogic extension for authenticating via OAuth. (I.E. Twitter login)"
+  p.description = "An authlogic extension for authenticating via OAuth.  This can be helpful for adding support for login/registration with Twitter credentials."
   p.url = "http://github.com/jrallison/authlogic_oauth"
   p.history_file = "CHANGELOG.rdoc"
   p.readme_file = "README.rdoc"
