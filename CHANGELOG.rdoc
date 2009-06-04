@@ -1,4 +1,7 @@
-= Authlogic OAuth
+== 1.0.1 released 2009-6-4
 
-Authlogic OAuth
+* Adding helpers for the login/register buttons to be used in conjunction with authlogic_oauth
 
+== 1.0.0 released 2009-5-31
+
+* Initial release.
