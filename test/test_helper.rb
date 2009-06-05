@@ -1,9 +1,7 @@
 require "test/unit"
 require "rubygems"
-require "oauth"
 require "ruby-debug"
 require "active_record"
-require "active_record/fixtures"
 
 ActiveRecord::Schema.verbose = false
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :dbfile => ":memory:")
@@ -32,11 +30,25 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 end
 
-require File.dirname(__FILE__) + '/../../authlogic/lib/authlogic' unless defined?(Authlogic)
-require File.dirname(__FILE__) + '/../../authlogic/lib/authlogic/test_case'
+require "active_record/fixtures"
+require "action_controller"
+require "oauth"
+Rails = true # to trick authlogic into loading the rails adapter
+require File.dirname(__FILE__) + "/../../authlogic/lib/authlogic"
+require File.dirname(__FILE__) + "/../../authlogic/lib/authlogic/test_case"
 require File.dirname(__FILE__) + '/../lib/authlogic_oauth' unless defined?(AuthlogicOauth)
 require File.dirname(__FILE__) + '/lib/user'
 require File.dirname(__FILE__) + '/lib/user_session'
+
+class ActionController::Base
+  def redirecting_to
+    @redirect_to
+  end
+  
+  def redirect_to(*args)
+    @redirect_to = args
+  end
+end
 
 class ActiveSupport::TestCase
   include ActiveRecord::TestFixtures
@@ -46,4 +58,17 @@ class ActiveSupport::TestCase
   self.pre_loaded_fixtures = false
   fixtures :all
   setup :activate_authlogic
+
+  
+    def activate_authlogic
+      Authlogic::Session::Base.controller = controller
+    end
+
+    def controller
+      @controller ||= Authlogic::ControllerAdapters::RailsAdapter.new(ActionController::Base.new)
+    end
+
+    def redirecting_to_oauth?
+      controller.redirecting_to.to_s =~ /^http:\/\/example.com/
+    end
 end

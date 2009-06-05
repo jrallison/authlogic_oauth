@@ -11,17 +11,13 @@ class SessionTest < ActiveSupport::TestCase
   def test_validate_by_nil_oauth_token
     session = UserSession.new
     assert !session.save
-    #assert !redirecting_to_yahoo?
-  end
-  
-  def test_auth_session
-    session = UserSession.new
-    #assert session.is_auth_session?
+    assert !redirecting_to_oauth?
   end
   
   def test_validate_by_oauth
+    controller.stubs(:params).returns({ :login_with_oauth => true })
     session = UserSession.new
     assert !session.save
-    #assert redirecting_to_yahoo?
+    assert redirecting_to_oauth?
   end
 end

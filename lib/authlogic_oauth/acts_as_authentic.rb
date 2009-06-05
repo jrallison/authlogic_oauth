@@ -79,7 +79,7 @@ module AuthlogicOauth
     private
     
       def authenticating_with_oauth?
-        !session_class.controller.params[:register_with_oauth].blank? || oauth_response
+        (session_class.controller.params && !session_class.controller.params[:register_with_oauth].blank?) || oauth_response
       end
     
       def authenticate_with_oauth

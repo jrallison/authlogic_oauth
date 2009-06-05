@@ -49,7 +49,7 @@ module AuthlogicOauth
     private
       
       def authenticating_with_oauth?
-        !controller.params[:login_with_oauth].blank? || oauth_response
+        (controller.params && !controller.params[:login_with_oauth].blank?) || oauth_response
       end
       
       def authenticate_with_oauth
