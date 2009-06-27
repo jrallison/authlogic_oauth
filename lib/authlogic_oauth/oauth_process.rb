@@ -18,17 +18,15 @@ module AuthlogicOauth
     end
     
     def redirect_to_oauth
-      request = oauth.get_request_token
+      request = oauth.get_request_token :oauth_callback => build_callback_url
       oauth_controller.session[:oauth_request_token]        = request.token
       oauth_controller.session[:oauth_request_token_secret] = request.secret
       
-      # Send to oauth authorize url and redirect back to the current action
-      oauth_controller.session[:oauth_redirect] = build_callback_url
       oauth_controller.redirect_to request.authorize_url
     end
     
     def build_callback_url
-      { :controller => oauth_controller.controller_name, :action => oauth_controller.action_name }
+      oauth_controller.url_for :controller => oauth_controller.controller_name, :action => oauth_controller.action_name
     end
     
     def request_token
@@ -38,7 +36,7 @@ module AuthlogicOauth
     end
     
     def generate_access_token
-      request_token.get_access_token
+      request_token.get_access_token(:oauth_verifier => oauth_controller.params[:oauth_verifier])
     end
     
     def oauth_response
