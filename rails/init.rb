@@ -1,4 +1,5 @@
 require "authlogic_oauth"
+require "oauth_callback_filter"
 
 # Throw callback rack app into the middleware stack
 ActionController::Dispatcher.middleware = ActionController::MiddlewareStack.new do |m|
