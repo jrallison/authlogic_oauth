@@ -89,7 +89,7 @@ The oauth_consumer should return an OAuth::Consumer which is configured for your
 === 6. Add login and register buttons to your views
 
   <%= oauth_register_button :value => "Register with Twitter" %>
-  <%= oauth_register_button :value => "Login with Twitter" %>
+  <%= oauth_login_button :value => "Login with Twitter" %>
 
 That's it! The rest is taken care of for you.
 
