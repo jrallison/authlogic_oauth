@@ -1,4 +1,4 @@
-== 1.0.3 released 2009-6-27
+== 1.0.4 released 2009-6-27
 
 * Bug fix
 
