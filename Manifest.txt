@@ -10,6 +10,7 @@ lib/authlogic_oauth/helper.rb
 lib/authlogic_oauth/oauth_process.rb
 lib/authlogic_oauth/session.rb
 lib/authlogic_oauth/version.rb
+lib/oauth_callback_filter.rb
 rails/init.rb
 test/acts_as_authentic_test.rb
 test/fixtures/users.yml
