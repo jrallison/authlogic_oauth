@@ -41,7 +41,7 @@ module AuthlogicOauth
  
     MAJOR = 1
     MINOR = 0
-    TINY  = 2
+    TINY  = 3
  
     # The current version as a Version instance
     CURRENT = new(MAJOR, MINOR, TINY)

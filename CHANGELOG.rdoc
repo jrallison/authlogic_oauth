@@ -1,3 +1,7 @@
+== 1.0.3 released 2009-6-27
+
+* Bug fix
+
 == 1.0.2 released 2009-6-27
 
 * Using oauth's callback_url parameter to control where the oauth server returns the user to the application.
