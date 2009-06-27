@@ -6,14 +6,14 @@ Authlogic OAuth is an extension of the Authlogic library to add OAuth support. O
 
 *	<b>Authlogic:</b> http://github.com/binarylogic/authlogic
 *	<b>OAuth Example Project:</b> http://github.com/jrallison/authlogic_example/tree/with-oauth
-*	<b>Live example with Twitter:</b> http://authlogic-oauth.heroku.com/
+*	<b>Live example with Twitter:</b> http://authlogic-oauth.heroku.com
 
 == Install and use
 
 === 1. Install Authlogic and setup your application
 
-  <b>Authlogic:</b> http://github.com/binarylogic/authlogic
-  <b>Authlogic Example:</b> http://github.com/binarylogic/authlogic_example
+* <b>Authlogic:</b> http://github.com/binarylogic/authlogic
+* <b>Authlogic Example:</b> http://github.com/binarylogic/authlogic_example
 
 === 2. Install OAuth and Authlogic_Oauth
 
