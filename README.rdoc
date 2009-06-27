@@ -72,29 +72,7 @@ You should save your @user objects this way as well, because you also want the u
 
 Notice we are saving with a block. Why? Because we need to redirect the user to their OAuth provider so that they can authenticate. When we do this, we don't want to execute that block of code, because if we do, we will get a DoubleRender error. This lets us skip that entire block and send the user along their way without any problems.
 
-=== 5. Add a few routes and a OAuth controller
-
-This area needs improvement.  Also, because of security issues with OAuth callbacks, this is a bit more complicated then it needs to be.
-
-Add the following routes to your routes.rb file:
-
-  map.oauth_login '/oauth_login', { :controller => 'user_sessions', :action => 'create', :method => 'get' }
-  map.oauth_register '/oauth_register', { :controller => 'users', :action => 'create', :method => 'get' }
-  map.authorize_oauth '/oauth', { :controller => 'oauth', :action => 'authorize', :method => 'get' }
-  
-Add an OAuth controller to handle the callback from your OAuth provider, and send it on it's way.
-
-  class OauthController < ApplicationController
-    def authorize
-      redirect_to session[:oauth_redirect].merge(:oauth_token => params[:oauth_token])
-    end
-  end
-
-=== 6. Config your OAuth provider's callback url
-
-You're callback url should point to the authorize route you added in step 5.
-
-=== 7. Define the oauth_consumer class method on your UserSession model
+=== 5. Define the oauth_consumer class method on your UserSession model
 
 The oauth_consumer should return an OAuth::Consumer which is configured for your OAuth provider.  Here's an example for Twitter:
 
@@ -108,7 +86,7 @@ The oauth_consumer should return an OAuth::Consumer which is configured for your
 
   end
   
-=== 8. Add login and register buttons to your views
+=== 6. Add login and register buttons to your views
 
   <%= oauth_register_button :value => "Register with Twitter" %>
   <%= oauth_register_button :value => "Login with Twitter" %>
@@ -118,6 +96,5 @@ That's it! The rest is taken care of for you.
 = Here are some next steps for the plugin.
 
 1. Safe OAuth error handling.
-4. Remove oauth request from the Rails request cycle.
-5. Cleaning up OAuth controller and routes when OAuth callback_url parameter is fixed ... or discovered an alternative way of handling it.
+2. Remove oauth request from the Rails request cycle.
 

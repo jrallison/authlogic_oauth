@@ -1,3 +1,10 @@
+== 1.0.2 released 2009-6-27
+
+* Using oauth's callback_url parameter to control where the oauth server returns the user to the application.
+  The callback_url parameter was temporarily disabled on major oauth sites due to security concerns, but has been resolved.
+  
+* Removed the need to add specific oauth routes and an oauth_controller (YAY!).  This makes using the plugin much easier.
+
 == 1.0.1 released 2009-6-4
 
 * Adding helpers for the login/register buttons to be used in conjunction with authlogic_oauth
