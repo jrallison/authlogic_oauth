@@ -22,6 +22,9 @@ module AuthlogicOauth
       oauth_controller.session[:oauth_request_token]        = request.token
       oauth_controller.session[:oauth_request_token_secret] = request.secret
       
+      # Tell our rack callback filter what method the current request is using
+      oauth_controller.session[:oauth_callback_method]      = oauth_controller.request.method
+      
       oauth_controller.redirect_to request.authorize_url
     end
     
