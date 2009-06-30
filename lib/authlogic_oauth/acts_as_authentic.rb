@@ -58,6 +58,8 @@ module AuthlogicOauth
       
       def save(perform_validation = true, &block)
         if perform_validation && block_given? && redirecting_to_oauth_server?
+          # Save attributes so they aren't lost during the authentication with the oauth server
+          session_class.controller.session[:authlogic_oauth_attributes] = attributes.reject!{|k, v| v.blank?}
           redirect_to_oauth
           return false
         end
@@ -83,6 +85,8 @@ module AuthlogicOauth
       end
     
       def authenticate_with_oauth
+        # Restore any attributes which were saved before redirecting to the oauth server
+        self.attributes = session_class.controller.session.delete(:authlogic_oauth_attributes)
         access_token = generate_access_token
       
         self.oauth_token = access_token.token
