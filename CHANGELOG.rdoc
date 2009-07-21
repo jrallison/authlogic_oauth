@@ -1,3 +1,7 @@
+== 1.0.7 release 2009-7-20
+
+* Fixing a OAuth unauthorized error when updating a user object with new oauth token/secret via the 'Register with OAuth' helper.
+
 == 1.0.6 released 2009-6-29
 
 * Any attributes set on the User model before saving, will now be maintained after the user
