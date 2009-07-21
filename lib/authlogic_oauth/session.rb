@@ -49,7 +49,8 @@ module AuthlogicOauth
     private
       
       def authenticating_with_oauth?
-        (controller.params && !controller.params[:login_with_oauth].blank?) || oauth_response
+        # Test for attempted_record with oauth_response to avoid issues with updating a user with new oauth token/secret
+        (controller.params && !controller.params[:login_with_oauth].blank?) || (self.attempted_record.nil? && oauth_response)
       end
       
       def authenticate_with_oauth
