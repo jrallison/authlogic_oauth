@@ -69,11 +69,19 @@ module AuthlogicOauth
         result
       end
 
-      # Set the oauth fields
+      # accessors for oauth fields
+      def oauth_token
+        read_attribute(oauth_token_field)
+      end
+      
       def oauth_token=(value)
         write_attribute(oauth_token_field, value.blank? ? nil : value)
       end
 
+      def oauth_secret 
+        read_attribute(oauth_secret_field)
+      end
+      
       def oauth_secret=(value)
         write_attribute(oauth_secret_field, value.blank? ? nil : value)
       end
