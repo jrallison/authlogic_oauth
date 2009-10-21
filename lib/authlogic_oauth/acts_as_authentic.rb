@@ -89,6 +89,9 @@ module AuthlogicOauth
     private
 
       def authenticating_with_oauth?
+        # Controller isn't available in all contexts (e.g. irb)
+        return false unless session_class.controller
+        
         # Initial request when user presses one of the button helpers
         (session_class.controller.params && !session_class.controller.params[:register_with_oauth].blank?) ||
         # When the oauth provider responds and we made the initial request
